@@ -18,6 +18,8 @@ public @Data @Builder @NoArgsConstructor
 
     private float credit;
 
+    private String address;
+
     @OneToMany(cascade=CascadeType.PERSIST)
     private List<Product> products;
 

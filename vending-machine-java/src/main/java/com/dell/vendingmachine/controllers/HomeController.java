@@ -4,7 +4,6 @@ import com.dell.vendingmachine.dto.VendingCredit;
 import com.dell.vendingmachine.model.Product;
 import com.dell.vendingmachine.model.VendingMachine;
 import com.dell.vendingmachine.service.VendingMachineService;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/home")
+@RequestMapping("/")
 public class HomeController {
 
     @Autowired
@@ -22,10 +21,6 @@ public class HomeController {
 
     public HomeController(){}
 
-    @GetMapping(value="hello")
-    public ResponseEntity<String> hello() {
-        return new ResponseEntity<String>("Hello." , HttpStatus.OK);
-    }
 
     @PostMapping(value="/{id}")
     public ResponseEntity<VendingMachine> AddCredit(@PathVariable Long id, @RequestBody VendingCredit credit ) {
@@ -42,7 +37,7 @@ public class HomeController {
     }
 
     @GetMapping(value="/{id}")
-    public ResponseEntity<VendingMachine> GetProducts(@PathVariable Long id) {
+    public ResponseEntity<VendingMachine> Get(@PathVariable Long id) {
 
         return new ResponseEntity<VendingMachine>(vendingMachineService.FindById(id), HttpStatus.OK);
     }
