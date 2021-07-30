@@ -18,7 +18,7 @@ class Product  implements Serializable {
 
     private  String name;
 
-    private float value;
+    private double value;
 
     private int quantity;
 

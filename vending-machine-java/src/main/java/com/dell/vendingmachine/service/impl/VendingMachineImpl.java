@@ -1,6 +1,7 @@
 package com.dell.vendingmachine.service.impl;
 
 import com.dell.vendingmachine.dto.VendingCredit;
+import com.dell.vendingmachine.model.Product;
 import com.dell.vendingmachine.model.VendingMachine;
 import com.dell.vendingmachine.repository.VendingMachineRepository;
 import com.dell.vendingmachine.service.VendingMachineService;
@@ -12,29 +13,28 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class VendingMachineImpl implements VendingMachineService {
 
-    @Autowired
+    final
     VendingMachineRepository vendingMachineRepository;
 
+    public VendingMachineImpl(VendingMachineRepository vendingMachineRepository) {
+        this.vendingMachineRepository = vendingMachineRepository;
+    }
 
     @Override
-    public VendingMachine AddCredit(Long id, VendingCredit credit){
+    public VendingMachine AddCredit(Long id, double credit){
 
         VendingMachine v =  vendingMachineRepository.getById( id);
-        v.setCredit(v.getCredit() + credit.Credit);
+        v.setCredit(v.getCredit() + credit);
 
         return vendingMachineRepository.save(v);
     }
 
-    @Transactional
-    public VendingMachine Create(VendingMachine vendingMachine){
-
-        return vendingMachineRepository.save(vendingMachine);
-
-    }
-
     @Override
-    public  VendingMachine FindById(long id){
+    public Product BuyProduct(long id, long productId) {
+        VendingMachine vm = vendingMachineRepository.getById(id);
 
-        return  vendingMachineRepository.findById(id).get();
+        vendingMachineRepository.save(vm);
+
+        return vm.getProducts().stream().filter(p -> p.getProductId() == productId).findFirst().get();
     }
 }

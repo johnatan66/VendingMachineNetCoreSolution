@@ -16,7 +16,7 @@ public @Data @Builder @NoArgsConstructor
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private float credit;
+    private double credit;
 
     private String address;
 
