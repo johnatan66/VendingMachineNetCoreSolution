@@ -9,20 +9,15 @@ namespace VendingMachineApplication.Business
 {
     public class VendingMachineBusiness : IVendingMachineBusiness
     {
-
         private readonly IVendingMachineHandler _vendingMachineHandler;
 
-        public VendingMachineBusiness(IVendingMachineHandler vendingMachineHandler) 
+        public VendingMachineBusiness(IVendingMachineHandler vendingMachineHandler)
         {
             _vendingMachineHandler = vendingMachineHandler;
-        
         }
 
-        public VendingMachine AddCredit(int id, double credits) 
+        public VendingMachine AddCredit(int id, double credits)
         {
-            if (credits < 0)
-                return null;
-
             var vending = _vendingMachineHandler.Get(id);
 
             vending.Credits = vending.Credits + credits;
@@ -30,15 +25,13 @@ namespace VendingMachineApplication.Business
             return _vendingMachineHandler.Update(vending);
         }
 
-        public IEnumerable<Product> GetProducts(int id)
+        public Product BuyProduct(int id, int productId)
         {
+            var vm = _vendingMachineHandler.Get(id);
 
-            var vending = _vendingMachineHandler.Get(id);
+            _vendingMachineHandler.Update(vm);
 
-            return vending?.Products;
-            
+            return vm.Products.First(p => p.Id == productId);
         }
-
-
     }
 }

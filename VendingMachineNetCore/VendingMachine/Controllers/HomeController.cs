@@ -6,30 +6,42 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using VendingMachineApplication.Business;
+using VendingMachineApplication.Data;
 using VendingMachineApplication.Models;
 
 namespace VendingMachineApplication.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/")]
     public class HomeController : ControllerBase
     {
 
         private readonly ILogger<HomeController> _logger;
         private readonly IVendingMachineBusiness _vendingMachineBusiness;
+        private readonly IVendingMachineHandler _vendingMachineHandler;
 
-        public HomeController(ILogger<HomeController> logger, IVendingMachineBusiness vendingMachineBusiness)
+        public HomeController(ILogger<HomeController> logger, IVendingMachineBusiness vendingMachineBusiness, IVendingMachineHandler vendingMachineHandler)
         {
             _logger = logger;
             _vendingMachineBusiness = vendingMachineBusiness;
+            _vendingMachineHandler = vendingMachineHandler;
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public ObjectResult GetVendingMachine(int id)
+        {
+            var vm = _vendingMachineHandler.Get(id);
+            if (vm == null)
+                return NotFound("Vending Machine not found");
+
+            return Ok(vm);
+        }
 
         [HttpPost]
-        [Route("{id}")]
+        [Route("{id}/add-credit")]
         public ObjectResult AddCredit(int id, [FromBody] JsonElement json)
         {
-
             JsonElement credit;
 
             if (!json.TryGetProperty("credit", out credit))
@@ -41,21 +53,15 @@ namespace VendingMachineApplication.Controllers
             return Ok(vending);
         }
 
-        [HttpGet]
-        [Route("{id}/products")]
-        public ObjectResult GetProducts(int id)
-        {
-            return Ok(_vendingMachineBusiness.GetProducts(id));
-        }
-
-
         [HttpPost]
-        [Route("{id}/product/{productId}")]
+        [Route("{id}/buy/{productId}")]
         public ObjectResult BuyProduct(int id, int productId)
         {
-            // Do Something
-            return null;
-        }
+            var product = _vendingMachineBusiness.BuyProduct(id, productId);
 
+            _logger.LogInformation($"Success: Bought a {product?.Name}");
+
+            return Ok(product);
+        }
     }
 }

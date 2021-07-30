@@ -34,16 +34,18 @@ namespace VendingMachineApplication
             services.AddDbContext<VendingMachineContext>(options =>
          options.UseSqlServer(Configuration.GetConnectionString("VendingMachineContext")));
 
+            services.AddTransient<DataSeed>();
+
             services.AddScoped<IVendingMachineBusiness, VendingMachineBusiness>();
 
             services.AddScoped<IVendingMachineHandler, VendingMachineHandler>();
-
-            services.AddScoped<IProductHandler, ProductHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataSeed dataSeed)
         {
+            dataSeed.RunSeed();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

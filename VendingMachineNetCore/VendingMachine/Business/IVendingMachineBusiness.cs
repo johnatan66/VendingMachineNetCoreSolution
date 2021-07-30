@@ -8,10 +8,8 @@ namespace VendingMachineApplication.Business
 {
     public interface IVendingMachineBusiness
     {
-
         public VendingMachine AddCredit(int id, double credits);
 
-        public IEnumerable<Product> GetProducts(int id);
-
+        Product BuyProduct(int id, int productId);
     }
 }

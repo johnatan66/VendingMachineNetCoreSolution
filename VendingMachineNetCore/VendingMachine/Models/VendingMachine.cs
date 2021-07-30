@@ -8,6 +8,7 @@ namespace VendingMachineApplication.Models
     public class VendingMachine
     {
         public int Id { get; set; }
+        public string Address { get; set; }
         public double Credits { get; set; } 
         public IEnumerable<Product> Products { get; set; }
     }
