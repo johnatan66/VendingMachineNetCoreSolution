@@ -11,5 +11,9 @@ namespace VendingMachineApplication.Business
         public VendingMachine AddCredit(int id, double credits);
 
         Product BuyProduct(int id, int productId);
+
+        Product RefillProducts(int id, int productId, int quantity);
+
+        public VendingMachine AddVm(VendingMachine vm);
     }
 }

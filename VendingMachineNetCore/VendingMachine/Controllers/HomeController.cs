@@ -59,9 +59,39 @@ namespace VendingMachineApplication.Controllers
         {
             var product = _vendingMachineBusiness.BuyProduct(id, productId);
 
+            if(product == null)
+                return NotFound("Product not found");
+
             _logger.LogInformation($"Success: Bought a {product?.Name}");
 
             return Ok(product);
         }
+
+        [HttpPost]
+        [Route("{id}/refill-product/{productId}")]
+        public ObjectResult RefillProducts(int id, int productId, [FromBody] JsonElement json)
+        {
+            JsonElement quantity;
+
+            if (!json.TryGetProperty("quantity", out quantity))
+                return BadRequest("quantity is missing");
+
+            _logger.LogInformation($"Received {quantity} ");
+            var vending = _vendingMachineBusiness.RefillProducts(id, productId, quantity.GetInt32());
+            if(vending == null)
+                return NotFound("Not found");
+
+            return Ok(vending);
+        }
+
+        [HttpPost]
+        [Route("add-vendingMachine")]
+        public ObjectResult AddVm([FromBody] VendingMachine vendingMachine)
+        {            
+            var addVending = _vendingMachineBusiness.AddVm(vendingMachine);
+
+            return Ok(addVending);
+        }
+
     }
 }

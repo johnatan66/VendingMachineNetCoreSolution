@@ -41,5 +41,13 @@ namespace VendingMachineApplication.Data
 
             return result.Entity;
         }
+
+        public void Create(VendingMachine vendingMachine)
+        {
+           _context.VendingMachines.Add(vendingMachine);
+
+           _context.SaveChanges();
+
+        }
     }
 }

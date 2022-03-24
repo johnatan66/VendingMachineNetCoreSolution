@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VendingMachineApplication.Models;
 
 namespace VendingMachineApplication.Migrations
 {
     [DbContext(typeof(VendingMachineContext))]
-    partial class VendingMachineContextModelSnapshot : ModelSnapshot
+    [Migration("20220323001948_addAdressColumn")]
+    partial class addAdressColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

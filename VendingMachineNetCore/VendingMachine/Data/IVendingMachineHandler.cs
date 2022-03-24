@@ -11,5 +11,8 @@ namespace VendingMachineApplication.Data
         VendingMachine Get(int id);
 
         VendingMachine Update(VendingMachine vendingMachine);
+
+        void Create(VendingMachine vendingMachine);
+        
     }
 }
